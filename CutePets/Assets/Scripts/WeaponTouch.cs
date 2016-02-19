@@ -43,6 +43,7 @@ public class WeaponTouch : MonoBehaviour {
 				}
 				if(fingercount>0){
 					Debug.Log ("BAAANGGG!!!!");
+					Shoot();
 				}
 			}
 		}
@@ -53,6 +54,7 @@ public class WeaponTouch : MonoBehaviour {
 				}
 				if(fingercount>0){
 					Debug.Log ("BAAANGGG!!!!");
+					Shoot ();
 				}
 			}
 		}
