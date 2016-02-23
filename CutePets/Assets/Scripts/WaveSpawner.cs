@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class WaveSpawner : MonoBehaviour {
-
+	private float randomenemy;
 	public enum SpawnState { SPAWNING, WAITING, COUNTING };
 
 	[System.Serializable]
@@ -10,6 +10,8 @@ public class WaveSpawner : MonoBehaviour {
 	{
 		public string name;
 		public Transform enemy;
+		public Transform enemy2;
+		public Transform enemy3;
 		public int count;
 		public float rate;
 	}
@@ -112,14 +114,20 @@ public class WaveSpawner : MonoBehaviour {
 		Debug.Log("Spawning Wave: " + _wave.name);
 		state = SpawnState.SPAWNING;
 
-		for (int i = 0; i < _wave.count; i++)
-		{
-			SpawnEnemy(_wave.enemy);
-			yield return new WaitForSeconds( 1f/_wave.rate );
+		for (int i = 0; i < _wave.count; i++) {
+			//SpawnEnemy(_wave.enemy);
+			randomenemy = Random.Range (0, 60);
+			if (randomenemy <= 36)
+				SpawnEnemy (_wave.enemy);
+			if (randomenemy >= 37 && randomenemy <= 51)
+				SpawnEnemy (_wave.enemy2);
+			if (randomenemy >= 52 && randomenemy <= 60)
+				SpawnEnemy (_wave.enemy3);
+			//yield return new WaitForSeconds( 1f/_wave.rate );
+			yield return new WaitForSeconds( 1f/(Random.Range(1,_wave.rate)) );
 		}
-
 		state = SpawnState.WAITING;
-
+		
 		yield break;
 	}
 

@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour {
 	[System.Serializable]
 	public class EnemyStats {
 		public int maxHealth = 100;
-		
+		public int score = 150;
 		private int _curHealth;
 		public int curHealth
 		{
@@ -52,7 +52,8 @@ public class Enemy : MonoBehaviour {
 		stats.curHealth -= damage;
 		if (stats.curHealth <= 0)
 		{
-			GameMaster.KillEnemy (this);
+			GameMaster.KillEnemy (this.gameObject);
+			Debug.Log("Destruido " + this.gameObject.name);
 		}
 		
 		if (statusIndicator != null)

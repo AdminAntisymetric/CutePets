@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.ImageEffects;
+using UnityEngine.UI;
 
 public class GameMaster : MonoBehaviour {
 	
 	public static GameMaster gm;
-
+	public int TotalScore = 0;
 	public int maxLives = 3;
 	public static int _remainingLives;
 	public static int RemainingLives 
@@ -17,6 +18,7 @@ public class GameMaster : MonoBehaviour {
 		if (gm == null) {
 			gm = GameObject.FindGameObjectWithTag ("GM").GetComponent<GameMaster>();
 		}
+		TotalScore = 0;
 	}
 
 
@@ -28,6 +30,7 @@ public class GameMaster : MonoBehaviour {
 	public CameraShake cameraShake;
 
 	public GameObject GameOverScreen;
+	public Text scoretext;
 
 	void Start()
 	{
@@ -38,6 +41,7 @@ public class GameMaster : MonoBehaviour {
 		}
 
 		_remainingLives = maxLives;
+		scoretext.text = "0";
 	}
 	
 		public void EndGame ()
@@ -67,15 +71,20 @@ public class GameMaster : MonoBehaviour {
 			}
 			}
 	
-	public static void KillEnemy (Enemy enemy) {
-		gm._KillEnemy(enemy);
+	public static void KillEnemy (GameObject enemy) {
+		gm._KillEnemy(enemy);		//recibimos los datos en nuestro manager
 	}
-	public void _KillEnemy(Enemy _enemy)
+	public void _KillEnemy(GameObject _enemy)
 	{
-		GameObject _clone = Instantiate(_enemy.deathParticles, _enemy.transform.position, Quaternion.identity) as GameObject;
-		Destroy(_clone, 5f);
-		cameraShake.Shake(_enemy.shakeAmt, _enemy.shakeLength);
-		Destroy(_enemy.gameObject);
+		//primero obtenemos la variable de 'points' para sumarla a nuestro marcador global.
+		TotalScore += _enemy.GetComponent<Enemy> ().stats.score;
+		Debug.Log ("Destruido");
+		//cambiamos el texto de nuestra GUI para que muestre el valor numerico como texto
+		scoretext.text = TotalScore.ToString ();
+		//hacemos referencia por medio de GetComponent para manipular y obtener
+		GameObject _clone = Instantiate (_enemy.GetComponent<Enemy>().deathParticles, _enemy.transform.position, Quaternion.identity) as GameObject;
+		/*Destruimos al enemigo; para el efecto de explosion use un script extra que se llama Destroy;
+		 Destroy(_clone, 0.1f)*/
+		Destroy (_enemy);
 	}
-	
 }
