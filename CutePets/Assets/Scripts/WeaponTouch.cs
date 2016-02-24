@@ -35,26 +35,28 @@ public class WeaponTouch : MonoBehaviour {
 			Debug.LogError("No CameraShake script found on GM object.");
 	}	// Update is called once per frame
 	void Update () {
-		int fingercount = 0;
-		if (fireRate == 0) {
-			foreach (Touch touch in Input.touches) {
-				if(touch.phase!=TouchPhase.Ended && touch.phase!=TouchPhase.Canceled){
-					fingercount++;
+		GameObject controlPause = GameObject.Find ("PauseControl");
+		if (!controlPause.GetComponent<PauseMenu> ().isPaused) {
+			int fingercount = 0;
+			if (fireRate == 0) {
+				foreach (Touch touch in Input.touches) {
+					if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled) {
+						fingercount++;
+					}
+					if (fingercount > 0) {
+						//Debug.Log ("BAAANGGG!!!!");
+						Shoot ();
+					}
 				}
-				if(fingercount>0){
-					//Debug.Log ("BAAANGGG!!!!");
-					Shoot();
-				}
-			}
-		}
-		else {
-			foreach (Touch touch in Input.touches) {
-				if(touch.phase!=TouchPhase.Ended && touch.phase!=TouchPhase.Canceled){
-					fingercount++;
-				}
-				if(fingercount>0){
-					//Debug.Log ("BAAANGGG!!!!");
-					Shoot ();
+			} else {
+				foreach (Touch touch in Input.touches) {
+					if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled) {
+						fingercount++;
+					}
+					if (fingercount > 0) {
+						//Debug.Log ("BAAANGGG!!!!");
+						Shoot ();
+					}
 				}
 			}
 		}

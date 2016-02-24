@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameMaster : MonoBehaviour {
 	
 	public static GameMaster gm;
-	public int TotalScore = 0;
+	public int TotalScore = 0, totalKills = 0;
 	public int maxLives = 3;
 	public static int _remainingLives;
 	public static int RemainingLives 
@@ -30,7 +30,7 @@ public class GameMaster : MonoBehaviour {
 	public CameraShake cameraShake;
 
 	public GameObject GameOverScreen;
-	public Text scoretext;
+	public Text wavetext, scoretext, killtext;
 
 	void Start()
 	{
@@ -41,12 +41,14 @@ public class GameMaster : MonoBehaviour {
 		}
 
 		_remainingLives = maxLives;
-		scoretext.text = "0";
+		wavetext.text = "Wave #1";
+		scoretext.text = "0 pts";
+		killtext.text = "Kills: 0";
 	}
 	
-		public void EndGame ()
-		{
-			Debug.Log("GAME OVER");
+	public void EndGame ()
+	{
+		Debug.Log("GAME OVER");
 		GameOverScreen.SetActive(true);
 	}
 
@@ -78,13 +80,14 @@ public class GameMaster : MonoBehaviour {
 	{
 		//primero obtenemos la variable de 'points' para sumarla a nuestro marcador global.
 		TotalScore += _enemy.GetComponent<Enemy> ().stats.score;
-		Debug.Log ("Destruido");
 		//cambiamos el texto de nuestra GUI para que muestre el valor numerico como texto
-		scoretext.text = TotalScore.ToString ();
+		scoretext.text = TotalScore.ToString () + " pts";
 		//hacemos referencia por medio de GetComponent para manipular y obtener
 		GameObject _clone = Instantiate (_enemy.GetComponent<Enemy>().deathParticles, _enemy.transform.position, Quaternion.identity) as GameObject;
 		/*Destruimos al enemigo; para el efecto de explosion use un script extra que se llama Destroy;
 		 Destroy(_clone, 0.1f)*/
 		Destroy (_enemy);
+		totalKills++;
+		killtext.text = "Kills: " + totalKills.ToString ();
 	}
 }

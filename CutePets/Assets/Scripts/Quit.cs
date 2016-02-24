@@ -5,5 +5,9 @@ public class Quit : MonoBehaviour {
 	
 	void OnMouseDown(){ // this object was clicked - do something 
 		Debug.Log("APPLICATION QUIT!");
-		Application.Quit(); }
+		Application.Quit();
+	}
+	public void Exit(){
+		Application.Quit();
+	}
 }

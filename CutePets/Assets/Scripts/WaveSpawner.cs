@@ -3,6 +3,7 @@ using System.Collections;
 
 public class WaveSpawner : MonoBehaviour {
 	private float randomenemy;
+	private int totalwaves = 1;
 	public enum SpawnState { SPAWNING, WAITING, COUNTING };
 
 	[System.Serializable]
@@ -63,7 +64,6 @@ public class WaveSpawner : MonoBehaviour {
 				return;
 			}
 		}
-
 		if (waveCountdown <= 0)
 		{
 			if (state != SpawnState.SPAWNING)
@@ -75,6 +75,8 @@ public class WaveSpawner : MonoBehaviour {
 		{
 			waveCountdown -= Time.deltaTime;
 		}
+		GameObject waveText = GameObject.Find("GameMaster");
+		waveText.GetComponent<GameMaster> ().wavetext.text = "Wave #" + totalwaves.ToString();
 	}
 
 	void WaveCompleted()
@@ -93,6 +95,7 @@ public class WaveSpawner : MonoBehaviour {
 		{
 			nextWave++;
 		}
+		totalwaves++;
 	}
 
 	bool EnemyIsAlive()
