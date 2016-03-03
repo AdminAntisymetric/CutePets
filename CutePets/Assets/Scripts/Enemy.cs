@@ -28,13 +28,18 @@ public class Enemy : MonoBehaviour {
 	
 	public float shakeAmt = 0.1f;
 	public float shakeLength = 0.1f;
-	
+	private bool wasKilled = false;
+
+	public bool isWeakened = false;
+	public int weakCounter = 0, refDamage;
+
 	[Header("Optional: ")]
 	[SerializeField]
 	private StatusIndicator statusIndicator;
 	
 	void Start()
 	{
+		refDamage = stats.damage;
 		stats.Init();
 		
 		if (statusIndicator != null)
@@ -47,13 +52,25 @@ public class Enemy : MonoBehaviour {
 			Debug.LogError("No death particles referenced on Enemy");
 		}
 	}
+
+	void Update(){
+		if (isWeakened) {
+			stats.damage = 0;
+			if (weakCounter > 0) {
+				weakCounter--;
+			} else {
+				isWeakened = false;
+			}
+		} else {
+			stats.damage = refDamage;
+		}
+	}
 	
-	public void DamageEnemy (int damage) {
+	public void DamageEnemy (int damage, bool wasHit) {
 		stats.curHealth -= damage;
 		if (stats.curHealth <= 0)
 		{
-			GameMaster.KillEnemy (this.gameObject);
-			Debug.Log("Destruido " + this.gameObject.name);
+			GameMaster.KillEnemy (this.gameObject, wasHit);
 		}
 		
 		if (statusIndicator != null)
@@ -65,10 +82,11 @@ public class Enemy : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D _colInfo)
 	{
 		Player _player = _colInfo.collider.GetComponent<Player>();
-		if (_player != null)
-		{
-			_player.DamagePlayer(stats.damage);
-			DamageEnemy(9999999);
+		if (_player != null) {
+			_player.DamagePlayer (stats.damage);
+			DamageEnemy (9999999, false);
+		} else if(_colInfo.gameObject.tag == "Floor"){
+			DamageEnemy (9999999, false);
 		}
 	}
 }
