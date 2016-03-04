@@ -21,7 +21,10 @@ public class EnemyAI : MonoBehaviour {
 	
 	//The AI's speed per second
 	public float speed = 300f;
+	private float refSpeed;
+	public bool isSlowed = false;
 	public ForceMode2D fMode;
+	public int slowCounter = 0, speedFactor = 2;
 
 	public bool pathIsEnded = false;
 	
@@ -34,23 +37,33 @@ public class EnemyAI : MonoBehaviour {
 	private bool searchingForPlayer = false;
 	
 	void Start () {
+		refSpeed = speed;
 		seeker = GetComponent<Seeker>();
 		rb = GetComponent<Rigidbody2D>();
 		
 		if (target == null) {
-
 			if (!searchingForPlayer) {
 				searchingForPlayer = true;
 				StartCoroutine (SearchForPlayer());
 			}
-
 			return;
 		}
-		
 		// Start a new path to the target position, return the result to the OnPathComplete method
 		seeker.StartPath (transform.position, target.position, OnPathComplete);
-		
 		StartCoroutine (UpdatePath ());
+	}
+
+	void Update(){
+		if (isSlowed) {
+			speed = refSpeed/speedFactor;
+			if (slowCounter > 0) {
+				slowCounter--;
+			} else {
+				isSlowed = false;
+			}
+		} else {
+			speed = refSpeed;
+		}
 	}
 
 	IEnumerator SearchForPlayer () {
@@ -64,17 +77,14 @@ public class EnemyAI : MonoBehaviour {
 			StartCoroutine (UpdatePath());
 			return false;
 		}
-		
 	}
 
 	IEnumerator UpdatePath () {
-		if (target == null) {
-			
+		if (target == null) {	
 			if (!searchingForPlayer) {
 				searchingForPlayer = true;
 				StartCoroutine (SearchForPlayer());
 			}
-			
 			return false;
 		}
 		
@@ -95,17 +105,13 @@ public class EnemyAI : MonoBehaviour {
 	
 	void FixedUpdate () {
 		if (target == null) {
-			
 			if (!searchingForPlayer) {
 				searchingForPlayer = true;
 				StartCoroutine (SearchForPlayer());
 			}
-			
 			return;
 		}
-		
 		//TODO: Always look at player?
-		
 		if (path == null)
 			return;
 		
@@ -131,6 +137,5 @@ public class EnemyAI : MonoBehaviour {
 			currentWaypoint++;
 			return;
 		}
-	}
-	
+	}	
 }

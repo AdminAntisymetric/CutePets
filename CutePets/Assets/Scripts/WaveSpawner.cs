@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class WaveSpawner : MonoBehaviour {
-
+	private float randomenemy;
+	public int totalwaves = 1;
 	public enum SpawnState { SPAWNING, WAITING, COUNTING };
 
 	[System.Serializable]
@@ -10,6 +11,8 @@ public class WaveSpawner : MonoBehaviour {
 	{
 		public string name;
 		public Transform enemy;
+		public Transform enemy2;
+		public Transform enemy3;
 		public int count;
 		public float rate;
 	}
@@ -61,7 +64,6 @@ public class WaveSpawner : MonoBehaviour {
 				return;
 			}
 		}
-
 		if (waveCountdown <= 0)
 		{
 			if (state != SpawnState.SPAWNING)
@@ -73,6 +75,8 @@ public class WaveSpawner : MonoBehaviour {
 		{
 			waveCountdown -= Time.deltaTime;
 		}
+		GameObject waveText = GameObject.Find("GameMaster");
+		waveText.GetComponent<GameMaster> ().wavetext.text = "Wave #" + totalwaves.ToString();
 	}
 
 	void WaveCompleted()
@@ -91,6 +95,7 @@ public class WaveSpawner : MonoBehaviour {
 		{
 			nextWave++;
 		}
+		totalwaves++;
 	}
 
 	bool EnemyIsAlive()
@@ -112,14 +117,33 @@ public class WaveSpawner : MonoBehaviour {
 		Debug.Log("Spawning Wave: " + _wave.name);
 		state = SpawnState.SPAWNING;
 
-		for (int i = 0; i < _wave.count; i++)
-		{
-			SpawnEnemy(_wave.enemy);
-			yield return new WaitForSeconds( 1f/_wave.rate );
+		/*if (totalwaves % 5 == 0 && totalwaves>10) {
+			_wave.enemy.GetComponent<Enemy>().stats.damage += 5;
+			_wave.enemy.GetComponent<Enemy>().stats.score += 10;
+			_wave.enemy.GetComponent<Enemy>().stats.maxHealth += 15;
+
+			_wave.enemy2.GetComponent<Enemy>().stats.damage += 5;
+			_wave.enemy2.GetComponent<Enemy>().stats.score += 10;
+			_wave.enemy2.GetComponent<Enemy>().stats.maxHealth += 15;
+
+			_wave.enemy3.GetComponent<Enemy>().stats.damage += 5;
+			_wave.enemy3.GetComponent<Enemy>().stats.score += 10;
+			_wave.enemy3.GetComponent<Enemy>().stats.maxHealth += 15;
+		}*/
+
+		for (int i = 0; i < _wave.count; i++) {
+			//SpawnEnemy(_wave.enemy);
+			randomenemy = Random.Range (0, 60);
+			if (randomenemy <= 36)
+				SpawnEnemy (_wave.enemy);
+			if (randomenemy >= 37 && randomenemy <= 51)
+				SpawnEnemy (_wave.enemy2);
+			if (randomenemy >= 52 && randomenemy <= 60)
+				SpawnEnemy (_wave.enemy3);
+			//yield return new WaitForSeconds( 1f/_wave.rate );
+			yield return new WaitForSeconds( 1f/(Random.Range(1,_wave.rate)) );
 		}
-
 		state = SpawnState.WAITING;
-
 		yield break;
 	}
 
@@ -130,5 +154,4 @@ public class WaveSpawner : MonoBehaviour {
 		Transform _sp = spawnPoints[ Random.Range (0, spawnPoints.Length) ];
 		Instantiate(_enemy, _sp.position, _sp.rotation);
 	}
-
 }

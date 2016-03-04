@@ -56,7 +56,7 @@ public class Tiling : MonoBehaviour {
 	// a function that creates a buddy on the side required
 	void MakeNewBuddy (int rightOrLeft) {
 		// calculating the new position for our new buddy
-		Vector3 newPosition = new Vector3 (myTransform.position.x + spriteWidth * rightOrLeft, myTransform.position.y, myTransform.position.z);
+		Vector3 newPosition = new Vector3 (myTransform.position.x + myTransform.localScale.x * spriteWidth * rightOrLeft, myTransform.position.y, myTransform.position.z);
 		// instantating our new body and storing him in a variable
 		Transform newBuddy = Instantiate (myTransform, newPosition, myTransform.rotation) as Transform;
 
