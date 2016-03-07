@@ -1,0 +1,143 @@
+fileFormatVersion: 2
+guid: ac37260659f977342aa7785ed3cfb19e
+timeCreated: 1456430775
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 46943_0
+    21300002: 46943_1
+    21300004: 46943_2
+    21300006: 46943_3
+    21300008: 46943_4
+    21300010: 46943_5
+    21300012: 46943_6
+    21300014: 46943_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: 46943_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 129
+        width: 256
+        height: 192
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 46943_1
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 433
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 46943_2
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 417
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 46943_3
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 332
+        width: 128
+        height: 61
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 46943_4
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 329
+        width: 128
+        height: 181
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 46943_5
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 329
+        width: 128
+        height: 180
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 46943_6
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 329
+        width: 128
+        height: 192
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 46943_7
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 329
+        width: 128
+        height: 192
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

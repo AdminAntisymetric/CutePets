@@ -22,6 +22,8 @@ public class WeaponTouch : MonoBehaviour {
 
 	public int weaponDamage;
 	private float FireRate, bulletLife;
+
+	bool isLaser = false;
 	
 	// Use this for initialization
 	void Awake () {
@@ -40,32 +42,34 @@ public class WeaponTouch : MonoBehaviour {
 			FireRate = this.GetComponentInParent<Player> ().playerStats.FireRate;
 			bulletLife = 4.0f;
 		} else {
+			fireRate = 0;
 			bulletLife = 0.04f;
+			isLaser = true;
 		}
 	}
 	// Update is called once per frame
 	void Update () {
 		GameObject controlPause = GameObject.Find ("PauseControl");
 		if (!controlPause.GetComponent<PauseMenu> ().isPaused) {
-			int fingercount = 0;
+			//int fingercount = 0;
 			if (FireRate == 0) {
-				foreach (Touch touch in Input.touches) {
-					if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled) {
-						fingercount++;
-					}
-					if (fingercount > 0) {
+			//	foreach (Touch touch in Input.touches) {
+			//		if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled) {
+			//			fingercount++;
+			//		}
+			//		if (fingercount > 0) {
 						Shoot ();
-					}
-				}
+			//		}
+			//	}
 			} else {
-				foreach (Touch touch in Input.touches) {
-					if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled) {
-						fingercount++;
-					}
-					if (fingercount > 0 && Time.time > timeToFire) {
+			//	foreach (Touch touch in Input.touches) {
+			//		if (touch.phase != TouchPhase.Ended && touch.phase != TouchPhase.Canceled) {
+			//			fingercount++;
+			//		}
+			//		if (fingercount > 0 && Time.time > timeToFire) {
+				if(Time.time > timeToFire){
 						timeToFire = Time.time + 1/FireRate;
 						Shoot ();
-					}
 				}
 			}
 		}
@@ -76,26 +80,11 @@ public class WeaponTouch : MonoBehaviour {
 			RaycastHit2D hit = Physics2D.Raycast (firePointPosition, mousePosition - firePointPosition, 100, whatToHit);
 			
 			Debug.DrawLine (firePointPosition, (mousePosition - firePointPosition) * 100, Color.cyan);
-			if (hit.collider != null) {
+			if (hit.collider != null && hit.collider.gameObject.layer != 11) {
 				Debug.DrawLine (firePointPosition, hit.point, Color.red);
 				Enemy enemy = hit.collider.GetComponent<Enemy> ();
-				if (enemy != null) {
+				if (enemy != null && isLaser) {
 					enemy.DamageEnemy (weaponDamage, true);
-				}
-				else{
-					Destroy(hit.collider.gameObject);
-					if(hit.collider.gameObject.layer == 11){
-						hit.collider.gameObject.GetComponent<ItemScripts>().BombAction();
-					}
-					else if(hit.collider.gameObject.layer == 12){
-						hit.collider.gameObject.GetComponent<ItemScripts>().ClockAction();
-					}
-					else if(hit.collider.gameObject.layer == 13){
-						hit.collider.gameObject.GetComponent<ItemScripts>().HealthKitAction();
-					}
-					else if(hit.collider.gameObject.layer == 14){
-						hit.collider.gameObject.GetComponent<ItemScripts>().CandyAction();
-					}
 				}
 			}
 			if (Time.time >= timeToSpawnEffect) {
@@ -123,12 +112,6 @@ public class WeaponTouch : MonoBehaviour {
 		}
 		
 		Destroy (trail.gameObject, bulletLife);
-
-		if (hitNormal != new Vector3(9999, 9999, 9999))
-		{
-			Transform hitParticle = Instantiate(HitPrefab, hitPos, Quaternion.FromToRotation (Vector3.right, hitNormal)) as Transform;
-			Destroy(hitParticle.gameObject, 0.1f);
-		}
 		
 		Transform clone = Instantiate (MuzzleFlashPrefab, firePoint.position, firePoint.rotation) as Transform;
 		clone.parent = firePoint;
