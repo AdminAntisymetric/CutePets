@@ -24,7 +24,8 @@ public class EnemyAI : MonoBehaviour {
 	private float refSpeed;
 	public bool isSlowed = false;
 	public ForceMode2D fMode;
-	public int slowCounter = 0, speedFactor = 2;
+	public float slowCounter = 0, speedFactor = 2;
+	public float timer;
 
 	public bool pathIsEnded = false;
 	
@@ -37,6 +38,7 @@ public class EnemyAI : MonoBehaviour {
 	private bool searchingForPlayer = false;
 	
 	void Start () {
+		timer = 0;
 		refSpeed = speed;
 		seeker = GetComponent<Seeker>();
 		rb = GetComponent<Rigidbody2D>();
@@ -55,17 +57,17 @@ public class EnemyAI : MonoBehaviour {
 
 	void Update(){
 		if (isSlowed) {
-			speed = refSpeed/speedFactor;
-			if (slowCounter > 0) {
-				slowCounter--;
-			} else {
+			timer+=Time.deltaTime;
+			if(timer<=slowCounter){
+				speed = refSpeed/speedFactor;
+			}else{
 				isSlowed = false;
 			}
 		} else {
 			speed = refSpeed;
+			timer = 0;
 		}
 	}
-
 	IEnumerator SearchForPlayer () {
 		GameObject sResult = GameObject.FindGameObjectWithTag ("Player");
 		if (sResult == null) {

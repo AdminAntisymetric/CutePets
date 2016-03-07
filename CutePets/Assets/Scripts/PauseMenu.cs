@@ -3,11 +3,8 @@ using System.Collections;
 
 public class PauseMenu : MonoBehaviour 
 {
-
 	public bool isPaused;
 	public GameObject pauseMenuCanvas;
-
-
 	// Update is called once per frame
 	void Update () 
 	{
@@ -24,21 +21,16 @@ public class PauseMenu : MonoBehaviour
 		{
 			pauseUnpause();
 		}
-
-
-
 	}
 	public void pauseUnpause()
 	{
 		isPaused = !isPaused;
 	}
-
-
-		public void Resume()
-		{
+	public void Resume()
+	{
 		isPaused = false;
-		}
-
-
-	
+	}
+	public void Restart(){
+		Application.LoadLevel(Application.loadedLevel);
+	}
 }

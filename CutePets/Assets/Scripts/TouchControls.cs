@@ -14,7 +14,6 @@ public class TouchControls : MonoBehaviour
 	public void Pause()
 	{
 		thePauseMenu.pauseUnpause ();
-
 	}
 	
 	// Update is called once per frame

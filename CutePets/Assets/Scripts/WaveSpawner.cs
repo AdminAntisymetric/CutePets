@@ -117,20 +117,6 @@ public class WaveSpawner : MonoBehaviour {
 		Debug.Log("Spawning Wave: " + _wave.name);
 		state = SpawnState.SPAWNING;
 
-		/*if (totalwaves % 5 == 0 && totalwaves>10) {
-			_wave.enemy.GetComponent<Enemy>().stats.damage += 5;
-			_wave.enemy.GetComponent<Enemy>().stats.score += 10;
-			_wave.enemy.GetComponent<Enemy>().stats.maxHealth += 15;
-
-			_wave.enemy2.GetComponent<Enemy>().stats.damage += 5;
-			_wave.enemy2.GetComponent<Enemy>().stats.score += 10;
-			_wave.enemy2.GetComponent<Enemy>().stats.maxHealth += 15;
-
-			_wave.enemy3.GetComponent<Enemy>().stats.damage += 5;
-			_wave.enemy3.GetComponent<Enemy>().stats.score += 10;
-			_wave.enemy3.GetComponent<Enemy>().stats.maxHealth += 15;
-		}*/
-
 		for (int i = 0; i < _wave.count; i++) {
 			//SpawnEnemy(_wave.enemy);
 			randomenemy = Random.Range (0, 60);
