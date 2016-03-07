@@ -99,15 +99,9 @@ public class BossSpawner : MonoBehaviour {
 	IEnumerator SpawnWave(Wave _wave){
 		Debug.Log("Spawning Wave: " + _wave.name);
 		state = SpawnState.SPAWNING;
-
-		/*if (NormalSpawnCount.GetComponent<WaveSpawner> ().totalwaves % 15 == 0 && NormalSpawnCount.GetComponent<WaveSpawner> ().totalwaves > 15) {
-			_wave.enemy.GetComponent<Enemy>().stats.damage += 15;
-			_wave.enemy.GetComponent<Enemy>().stats.score += 30;
-			_wave.enemy.GetComponent<Enemy>().stats.maxHealth += 45;
-		}*/
 		if (NormalSpawnCount.GetComponent<WaveSpawner> ().totalwaves % 5 == 0) {
 			SpawnEnemy (_wave.enemy);
-			yield return new WaitForSeconds( 1f/(Random.Range(1,_wave.rate)));
+			yield return new WaitForSeconds( 1f/_wave.rate);
 		}
 		state = SpawnState.WAITING;
 		yield break;
