@@ -16,6 +16,7 @@ public class MoveTrail : MonoBehaviour {
 	void OnCollisionEnter2D (Collision2D other){
 		//Debug.Log (other.gameObject.name);
 		Destroy (this.gameObject);
-		other.gameObject.GetComponent<Enemy> ().DamageEnemy (damage, true);
+		if(other.gameObject.layer == 8)
+			other.gameObject.GetComponent<Enemy> ().DamageEnemy (damage, true);
 	}
 }
