@@ -18,12 +18,12 @@ public class Player : MonoBehaviour {
 	public int fallBoundary = -20;
 
 	public float repeatDamagePeriod = 2.0f;
-
 	private Vector3 healthScale;
 	private SpriteRenderer healthBar;
 	private float lastHitTime;
 
 	public Transform weaponlocation;
+	public bool playable;
 
 	void Start(){
 		GameObject weaponinstance = Instantiate(weapon, new Vector3(weaponlocation.position.x, weaponlocation.position.y, weaponlocation.position.z), Quaternion.identity ) as GameObject;
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour {
 			playerStats.Health = 100;
 
 		curHealth = playerStats.Health;
-		UpdateHealthBar();
+		//UpdateHealthBar();
 
 		if (isInvincible) {
 			timer += Time.deltaTime;
@@ -84,6 +84,6 @@ public class Player : MonoBehaviour {
 		// Set the health bar's colour to proportion of the way between green and red based on the player's health.
 		healthBar.material.color = Color.Lerp(Color.green, Color.red, 1 - playerStats.Health * 0.01f);	
 		// Set the scale of the health bar to be proportional to the player's health.
-		healthBar.transform.localScale = new Vector3(healthScale.x * playerStats.Health * 0.01f, 2.5f, 1);
+		healthBar.transform.localScale = new Vector3(healthScale.x * playerStats.Health * 0.01f, 1.5f, 1);
 	}
 }

@@ -110,6 +110,6 @@ public class ShotgunScript : MonoBehaviour {
 		Destroy (clone.gameObject, 0.02f);
 		
 		//Shake the camera
-		//camShake.Shake(camShakeAmt, camShakeLength);
+		camShake.Shake(camShakeAmt, camShakeLength);
 	}
 }

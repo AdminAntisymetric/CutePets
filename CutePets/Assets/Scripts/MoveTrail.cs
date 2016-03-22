@@ -14,18 +14,13 @@ public class MoveTrail : MonoBehaviour {
 		transform.Translate (Vector3.right * Time.deltaTime * moveSpeed);
 	}
 	void OnCollisionEnter2D (Collision2D other){
-		//Debug.Log (other.gameObject.name);
-<<<<<<< HEAD
-		Destroy (this.gameObject);
-		if(other.gameObject.layer == 8)
-			other.gameObject.GetComponent<Enemy> ().DamageEnemy (damage, true);
-=======
-		if (other.gameObject.tag == "Enemy") {
+		if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Boss") {
 			Destroy (this.gameObject);
 			other.gameObject.GetComponent<Enemy> ().DamageEnemy (damage, true);
-		} else {
-			Debug.Log ("No es enemigo");
+		} else if (other.gameObject.tag == "Player"){
+			Debug.Log ("Madres somos nosotros mismos xD");
+			other.rigidbody.isKinematic=true;
 		}
->>>>>>> origin/master
+		other.rigidbody.isKinematic=false;
 	}
 }

@@ -21,8 +21,8 @@ public class GameMaster : MonoBehaviour {
 		TotalScore = 0;
 	}
 
-
-	public Transform playerPrefab;
+	//public Transform playerPrefab;
+	public GameObject playerPrefab;
 	public Transform spawnPoint;
 	public float spawnDelay = 2;
 	public Transform spawnPrefab;
@@ -42,7 +42,13 @@ public class GameMaster : MonoBehaviour {
 	public bool bombActivated=false, clockActivated=false;
 	public float timer, slowCounter;
 
+	public bool gameOver = false;
+
 	void Start(){
+		if(GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataTransfer>().characterRef != null)
+			playerPrefab = GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataTransfer>().characterRef;
+		Instantiate (playerPrefab, spawnPoint.position, spawnPoint.rotation);
+
 		if (cameraShake == null){
 			Debug.LogError("No camera shake referenced in GameMaster");
 		}
@@ -63,8 +69,14 @@ public class GameMaster : MonoBehaviour {
 	}
 	
 	public void EndGame (){
-		Debug.Log("GAME OVER");
 		GameOverScreen.SetActive(true);
+		gameOver = true;
+		GameObject.Find ("PauseButton").gameObject.GetComponent<Button> ().interactable = false;
+		GameObject.Find ("ScoreText").gameObject.GetComponent<Text> ().text = TotalScore.ToString ();
+		if (TotalScore > GameObject.FindGameObjectWithTag ("DataManager").GetComponent<DataTransfer> ().highscore) {
+			GameObject.FindGameObjectWithTag ("DataManager").GetComponent<DataTransfer> ().highscore = TotalScore;
+			GameObject.FindGameObjectWithTag ("DataManager").GetComponent<DataTransfer> ().saveScore = true;
+		}
 	}
 
 	public void Update(){
@@ -73,20 +85,21 @@ public class GameMaster : MonoBehaviour {
 
 		if (bombActivated)
 			StartCoroutine (BombEffect ());
-		else
+		else {
 			bombFX.GetComponent<SpriteRenderer> ().color = new Color (bombRef.r, bombRef.g, bombRef.b, 0.0f);
+		}
 
 		if (clockActivated) {
 			timer += Time.deltaTime;
 			if (timer <= slowCounter)
-				StartCoroutine (ClockEffect ());
+				StartCoroutine (ClockEffect (2));
 			else
 				clockActivated = false;
 		} else {
-			//timer = 0;
+			timer = 0;
 			clockFX.GetComponent<SpriteRenderer> ().color = new Color (clockRef.r, clockRef.g, clockRef.b, 0.0f);
 		}
-	}
+}
 
 	public IEnumerator _RespawnPlayer () {
 		GetComponent<AudioSource>().Play ();
@@ -133,7 +146,7 @@ public class GameMaster : MonoBehaviour {
 		yield return new WaitForSeconds (.1f);
 		bombActivated = false;
 	}
-	IEnumerator ClockEffect(){
+	IEnumerator ClockEffect(int factor){
 		clockFX.GetComponent<SpriteRenderer> ().color = new Color (clockRef.r, clockRef.g, clockRef.b, 0.5f);
 		yield return new WaitForSeconds (.1f);
 	}

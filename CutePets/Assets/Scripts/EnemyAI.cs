@@ -36,6 +36,7 @@ public class EnemyAI : MonoBehaviour {
 	private int currentWaypoint = 0;
 
 	private bool searchingForPlayer = false;
+	GameMaster gmRef;
 	
 	void Start () {
 		timer = 0;
@@ -53,13 +54,14 @@ public class EnemyAI : MonoBehaviour {
 		// Start a new path to the target position, return the result to the OnPathComplete method
 		seeker.StartPath (transform.position, target.position, OnPathComplete);
 		StartCoroutine (UpdatePath ());
+		gmRef = GameObject.FindWithTag ("GM").GetComponent<GameMaster> ();
 	}
 
 	void Update(){
 		if (isSlowed) {
 			timer+=Time.deltaTime;
 			if(timer<=slowCounter){
-				speed = refSpeed/speedFactor;
+				speed = 10;
 			}else{
 				isSlowed = false;
 			}
@@ -82,19 +84,19 @@ public class EnemyAI : MonoBehaviour {
 	}
 
 	IEnumerator UpdatePath () {
-		if (target == null) {	
-			if (!searchingForPlayer) {
-				searchingForPlayer = true;
-				StartCoroutine (SearchForPlayer());
+			if (target == null) {	
+				if (!searchingForPlayer) {
+					searchingForPlayer = true;
+					StartCoroutine (SearchForPlayer ());
+				}
+				return false;
 			}
-			return false;
-		}
 		
-		// Start a new path to the target position, return the result to the OnPathComplete method
-		seeker.StartPath (transform.position, target.position, OnPathComplete);
+			// Start a new path to the target position, return the result to the OnPathComplete method
+			seeker.StartPath (transform.position, target.position, OnPathComplete);
 		
-		yield return new WaitForSeconds ( 1f/updateRate );
-		StartCoroutine (UpdatePath());
+			yield return new WaitForSeconds (1f / updateRate);
+			StartCoroutine (UpdatePath ());
 	}
 	
 	public void OnPathComplete (Path p) {
@@ -106,38 +108,38 @@ public class EnemyAI : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		if (target == null) {
-			if (!searchingForPlayer) {
-				searchingForPlayer = true;
-				StartCoroutine (SearchForPlayer());
-			}
-			return;
-		}
-		//TODO: Always look at player?
-		if (path == null)
-			return;
-		
-		if (currentWaypoint >= path.vectorPath.Count) {
-			if (pathIsEnded)
+			if (target == null) {
+				if (!searchingForPlayer) {
+					searchingForPlayer = true;
+					StartCoroutine (SearchForPlayer ());
+				}
 				return;
+			}
+			//TODO: Always look at player?
+			if (path == null)
+				return;
+		
+			if (currentWaypoint >= path.vectorPath.Count) {
+				if (pathIsEnded)
+					return;
 			
-			Debug.Log ("End of path reached.");
-			pathIsEnded = true;
-			return;
-		}
-		pathIsEnded = false;
+				Debug.Log ("End of path reached.");
+				pathIsEnded = true;
+				return;
+			}
+			pathIsEnded = false;
 		
-		//Direction to the next waypoint
-		Vector3 dir = ( path.vectorPath[currentWaypoint] - transform.position ).normalized;
-		dir *= speed * Time.fixedDeltaTime;
+			//Direction to the next waypoint
+			Vector3 dir = (path.vectorPath [currentWaypoint] - transform.position).normalized;
+			dir *= speed * Time.fixedDeltaTime;
 		
-		//Move the AI
-		rb.AddForce (dir, fMode);
+			//Move the AI
+			rb.AddForce (dir, fMode);
 		
-		float dist = Vector2.Distance (transform.position, path.vectorPath[currentWaypoint]);
-		if (dist < nextWaypointDistance) {
-			currentWaypoint++;
-			return;
-		}
-	}	
+			float dist = Vector2.Distance (transform.position, path.vectorPath [currentWaypoint]);
+			if (dist < nextWaypointDistance) {
+				currentWaypoint++;
+				return;
+			}
+		}	
 }

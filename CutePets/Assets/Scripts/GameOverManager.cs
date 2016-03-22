@@ -13,4 +13,7 @@ public void Quit ()
 	{
 		Application.LoadLevel(Application.loadedLevel);
 	}
+	public void LoadMenu(){
+		Application.LoadLevel(0);
+	}
 }
