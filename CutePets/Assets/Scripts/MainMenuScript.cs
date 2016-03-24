@@ -19,11 +19,19 @@ public class MainMenuScript : MonoBehaviour {
 	}
 
 	public void PlayGame(){
+		AudioButton ();
 		Application.LoadLevel (2);
 	}
 
 	public void Selection(){
+		AudioButton ();
 		Application.LoadLevel (1);
 		GameObject.FindGameObjectWithTag ("DataManager").GetComponent<DataTransfer> ().loadCharacters = true;
+	}
+
+	public void AudioButton(){
+		//Debug.Log (GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ());
+		audioManager audioManager = GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ();
+		audioManager.PlaySound ("Boton");
 	}
 }

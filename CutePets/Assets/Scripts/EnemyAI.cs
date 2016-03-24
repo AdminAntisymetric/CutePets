@@ -61,9 +61,11 @@ public class EnemyAI : MonoBehaviour {
 		if (isSlowed) {
 			timer+=Time.deltaTime;
 			if(timer<=slowCounter){
-				speed = 10;
+				//speed = 0f;
+				this.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
 			}else{
 				isSlowed = false;
+				this.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
 			}
 		} else {
 			speed = refSpeed;
@@ -100,7 +102,7 @@ public class EnemyAI : MonoBehaviour {
 	}
 	
 	public void OnPathComplete (Path p) {
-		Debug.Log ("We got a path. Did it have an error? " + p.error);
+		//Debug.Log ("We got a path. Did it have an error? " + p.error);
 		if (!p.error) {
 			path = p;
 			currentWaypoint = 0;
@@ -123,7 +125,7 @@ public class EnemyAI : MonoBehaviour {
 				if (pathIsEnded)
 					return;
 			
-				Debug.Log ("End of path reached.");
+				//Debug.Log ("End of path reached.");
 				pathIsEnded = true;
 				return;
 			}

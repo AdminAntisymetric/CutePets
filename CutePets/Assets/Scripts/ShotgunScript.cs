@@ -112,4 +112,10 @@ public class ShotgunScript : MonoBehaviour {
 		//Shake the camera
 		camShake.Shake(camShakeAmt, camShakeLength);
 	}
+
+	public void ShotgunFX(){
+		Debug.Log (GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ());
+		audioManager audioManager = GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ();
+		audioManager.PlaySound("Shotgun");
+	}
 }

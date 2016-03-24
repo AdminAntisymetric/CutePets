@@ -71,14 +71,14 @@ public class BossSpawner : MonoBehaviour {
 	}
 	void WaveCompleted()
 	{
-		Debug.Log("Wave Completed!");
+		//Debug.Log("Wave Completed!");
 		
 		state = SpawnState.COUNTING;
 		waveCountdown = timeBetweenWaves;
 		
 		if (nextWave + 1 > waves.Length - 1){
 			nextWave = 0;
-			Debug.Log("ALL WAVES COMPLETE! Looping...");
+			//Debug.Log("ALL WAVES COMPLETE! Looping...");
 		}
 		else{
 			nextWave++;
@@ -97,7 +97,7 @@ public class BossSpawner : MonoBehaviour {
 		return true;
 	}
 	IEnumerator SpawnWave(Wave _wave){
-		Debug.Log("Spawning Wave: " + _wave.name);
+		//Debug.Log("Spawning Wave: " + _wave.name);
 		state = SpawnState.SPAWNING;
 		if (NormalSpawnCount.GetComponent<WaveSpawner> ().totalwaves % 5 == 0) {
 			SpawnEnemy (_wave.enemy);
@@ -107,7 +107,7 @@ public class BossSpawner : MonoBehaviour {
 		yield break;
 	}
 	void SpawnEnemy(Transform _enemy){
-		Debug.Log("Spawning Enemy: " + _enemy.name);
+		//Debug.Log("Spawning Enemy: " + _enemy.name);
 		
 		Transform _sp = spawnPoints[0];
 		Instantiate(_enemy, _sp.position, _sp.rotation);

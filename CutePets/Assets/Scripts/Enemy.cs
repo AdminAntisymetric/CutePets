@@ -83,18 +83,18 @@ public class Enemy : MonoBehaviour {
 		stats.curHealth -= damage;
 		if (stats.curHealth <= 0)
 		{
-			int drop = Random.Range (0,4);
-			if(drop<1){
-				int randomItem = Random.Range(0,20);
+			int drop = Random.Range (0,10);
+			if(drop>7){
+				int randomItem = Random.Range(0,10);
 				//Instantiate (ItemAmount[0] as Object,this.gameObject.transform.position,this.gameObject.transform.rotation);
-				if(randomItem>=0 && randomItem<10)
+				if(randomItem>=0 && randomItem<4)
 					Instantiate (ItemAmount[2] as Object,this.gameObject.transform.position,this.gameObject.transform.rotation);
-				if(randomItem>=10 && randomItem<16)
+				if(randomItem>=4 && randomItem<6)
 					Instantiate (ItemAmount[3] as Object,this.gameObject.transform.position,this.gameObject.transform.rotation);
-				if(randomItem>=16 && randomItem<19)
+				if(randomItem>=6 && randomItem<8)
 					Instantiate (ItemAmount[0] as Object,this.gameObject.transform.position,this.gameObject.transform.rotation);
-				if(randomItem>=19 && randomItem<20)
-					Instantiate (ItemAmount[3] as Object,this.gameObject.transform.position,this.gameObject.transform.rotation);
+				if(randomItem>=8 && randomItem<10)
+					Instantiate (ItemAmount[1] as Object,this.gameObject.transform.position,this.gameObject.transform.rotation);
 			}
 			GameMaster.KillEnemy (this.gameObject, wasHit);
 			Instantiate (deathParticles,this.gameObject.transform.position, this.gameObject.transform.rotation);
@@ -106,7 +106,7 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 	
-	void OnCollisionEnter2D(Collision2D _colInfo)
+	/*void OnCollisionEnter2D(Collision2D _colInfo)
 	{
 		Player _player = _colInfo.collider.GetComponent<Player>();
 		if (_player != null) {
@@ -114,6 +114,20 @@ public class Enemy : MonoBehaviour {
 			DamageEnemy (9999999, false);
 		} else if(_colInfo.gameObject.tag == "Floor"){
 			DamageEnemy (9999999, false);
+		}
+	}*/
+	void OnTriggerEnter2D(Collider2D other){
+		Player _player = other.GetComponent<Player> ();
+		if (other.name == "Floor" || other.name == "Boundary")
+			DamageEnemy (9999999, false);
+		if (other.tag == "Player") {
+			_player.DamagePlayer (stats.damage);
+			DamageEnemy (9999999, false);
+		}
+		if (other.tag == "Bullet") {
+			Destroy (other.gameObject);
+			Instantiate(deathParticles, other.transform.position, other.transform.rotation);
+			DamageEnemy (GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().playerStats.Damage, true);
 		}
 	}
 }

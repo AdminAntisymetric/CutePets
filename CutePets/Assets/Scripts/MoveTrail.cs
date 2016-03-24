@@ -13,7 +13,7 @@ public class MoveTrail : MonoBehaviour {
 	void Update () {
 		transform.Translate (Vector3.right * Time.deltaTime * moveSpeed);
 	}
-	void OnCollisionEnter2D (Collision2D other){
+	/*void OnCollisionEnter2D (Collision2D other){
 		if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Boss") {
 			Destroy (this.gameObject);
 			other.gameObject.GetComponent<Enemy> ().DamageEnemy (damage, true);
@@ -22,5 +22,5 @@ public class MoveTrail : MonoBehaviour {
 			other.rigidbody.isKinematic=true;
 		}
 		other.rigidbody.isKinematic=false;
-	}
+	}*/
 }

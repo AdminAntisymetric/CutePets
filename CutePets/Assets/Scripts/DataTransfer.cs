@@ -24,8 +24,9 @@ public class DataTransfer : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		if (GameObject.Find ("MainMenu") != null)
+		if (GameObject.Find ("MainMenu") != null) {
 			Load ();
+		}
 
 		if (GameObject.Find ("MainUI") != null) {
 			characterData = GameObject.Find ("MainUI").GetComponent<SelectMenuScript>();
@@ -59,14 +60,13 @@ public class DataTransfer : MonoBehaviour {
 		file.Close ();
 	}
 	void SaveCharacterData(){
-		Debug.Log ("Guardamos info de los personajes actuales");
 		BinaryFormatter binary = new BinaryFormatter ();
 		FileStream file = File.Create (Application.persistentDataPath + "/characters.data");
 		DataStored gameData = new DataStored ();
 		gameData.playableCharacters = new bool[totalCharacters];
 		for (int i=0; i<totalCharacters; i++) {
 			gameData.playableCharacters[i] = GameObject.Find ("MainUI").GetComponent<SelectMenuScript>().characters[i].GetComponent<Player>().playable;
-			Debug.Log (gameData.playableCharacters[i]);
+			//Debug.Log (gameData.playableCharacters[i]);
 		}
 		binary.Serialize (file, gameData);
 		file.Close ();
@@ -77,12 +77,13 @@ public class DataTransfer : MonoBehaviour {
 			FileStream file = File.Open(Application.persistentDataPath + "/score.data", FileMode.Open);
 			DataStored gameData = (DataStored)binary.Deserialize(file);
 			file.Close();
-			if(GameObject.Find("MainMenu")!=null)
+			if(GameObject.Find("MainMenu")!=null){
 				GameObject.Find ("Highscore").GetComponent<Text>().text = gameData.scoreSave.ToString();
+				highscore = gameData.scoreSave;
+			}
 		}
 	}
 	void LoadCharacterData(){
-		Debug.Log ("Cargamos info de los personajes actuales");
 		if (File.Exists (Application.persistentDataPath + "/characters.data")) {
 			BinaryFormatter binary = new BinaryFormatter();
 			FileStream file = File.Open(Application.persistentDataPath + "/characters.data", FileMode.Open);
