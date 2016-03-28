@@ -24,7 +24,6 @@ public class WeaponTouch : MonoBehaviour {
 	private float FireRate, bulletLife;
 
 	bool isLaser = false;
-	string weaponName;
 	
 	// Use this for initialization
 	void Awake () {
@@ -40,14 +39,12 @@ public class WeaponTouch : MonoBehaviour {
 			Debug.LogError("No CameraShake script found on GM object.");
 		weaponDamage = this.GetComponentInParent<Player> ().playerStats.Damage;
 		if (this.GetComponentInParent<Player> ().weapon.name != "Laser") {
-			weaponName = "Rifle";
 			FireRate = this.GetComponentInParent<Player> ().playerStats.FireRate;
-			bulletLife = 1.5f;
+			bulletLife = 4.0f;
 		} else {
 			fireRate = 0;
 			bulletLife = 0.04f;
 			isLaser = true;
-			weaponName = "Laser";
 		}
 	}
 	// Update is called once per frame
@@ -61,7 +58,6 @@ public class WeaponTouch : MonoBehaviour {
 			//			fingercount++;
 			//		}
 			//		if (fingercount > 0) {
-						RifleFX();
 						Shoot ();
 			//		}
 			//	}
@@ -72,7 +68,6 @@ public class WeaponTouch : MonoBehaviour {
 			//		}
 			//		if (fingercount > 0 && Time.time > timeToFire) {
 				if(Time.time > timeToFire){
-						RifleFX ();
 						timeToFire = Time.time + 1/FireRate;
 						Shoot ();
 				}
@@ -126,9 +121,5 @@ public class WeaponTouch : MonoBehaviour {
 		
 		//Shake the camera
 		camShake.Shake(camShakeAmt, camShakeLength);
-	}
-	public void RifleFX(){
-		audioManager audioManager = GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ();
-		audioManager.PlaySound (weaponName);
 	}
 }

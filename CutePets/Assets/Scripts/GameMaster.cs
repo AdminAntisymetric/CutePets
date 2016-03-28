@@ -73,8 +73,6 @@ public class GameMaster : MonoBehaviour {
 		gameOver = true;
 		GameObject.Find ("PauseButton").gameObject.GetComponent<Button> ().interactable = false;
 		GameObject.Find ("ScoreText").gameObject.GetComponent<Text> ().text = TotalScore.ToString ();
-		//Debug.Log (TotalScore);
-		//Debug.Log (GameObject.FindGameObjectWithTag ("DataManager").GetComponent<DataTransfer> ().highscore);
 		if (TotalScore > GameObject.FindGameObjectWithTag ("DataManager").GetComponent<DataTransfer> ().highscore) {
 			GameObject.FindGameObjectWithTag ("DataManager").GetComponent<DataTransfer> ().highscore = TotalScore;
 			GameObject.FindGameObjectWithTag ("DataManager").GetComponent<DataTransfer> ().saveScore = true;

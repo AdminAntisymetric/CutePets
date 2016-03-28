@@ -9,7 +9,6 @@ public class Player : MonoBehaviour {
 		public int Damage = 30;
 	}
 	public int curHealth;
-	private int maxHealth;
 	public bool isInvincible = false;
 	public float timer;
 	public float invincibleCounter;
@@ -27,7 +26,6 @@ public class Player : MonoBehaviour {
 	public bool playable;
 
 	void Start(){
-		maxHealth = playerStats.Health;
 		GameObject weaponinstance = Instantiate(weapon, new Vector3(weaponlocation.position.x, weaponlocation.position.y, weaponlocation.position.z), Quaternion.identity ) as GameObject;
 		weaponinstance.transform.parent = gameObject.transform;
 		timer = 0;
@@ -42,8 +40,8 @@ public class Player : MonoBehaviour {
 		if (transform.position.y <= fallBoundary)
 			DamagePlayer (9999999);
 
-		if (playerStats.Health > maxHealth)
-			playerStats.Health = maxHealth;
+		if (playerStats.Health > 100)
+			playerStats.Health = 100;
 
 		curHealth = playerStats.Health;
 		//UpdateHealthBar();
@@ -81,11 +79,11 @@ public class Player : MonoBehaviour {
 		GetComponent<SpriteRenderer>().color = Color.white;
 		yield return new WaitForSeconds (.2f);
 	}
-	/*public void UpdateHealthBar ()
+	public void UpdateHealthBar ()
 	{
 		// Set the health bar's colour to proportion of the way between green and red based on the player's health.
 		healthBar.material.color = Color.Lerp(Color.green, Color.red, 1 - playerStats.Health * 0.01f);	
 		// Set the scale of the health bar to be proportional to the player's health.
 		healthBar.transform.localScale = new Vector3(healthScale.x * playerStats.Health * 0.01f, 1.5f, 1);
-	}*/
+	}
 }

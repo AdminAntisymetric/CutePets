@@ -23,9 +23,9 @@ public class SelectMenuScript : MonoBehaviour {
 		spriteArea = GameObject.Find ("CharacterSprite").transform;
 		Instantiate (characters [index], spriteArea.position, spriteArea.rotation);
 		currCharacter = characters [index];
-		/*Admob.Instance().initAdmob("ca-app-pub-7030539849658179/2969041847","ca-app-pub-7030539849658179/4499160641");//set your admob id here
+		Admob.Instance().initAdmob("ca-app-pub-7030539849658179/2969041847","ca-app-pub-7030539849658179/4499160641");//set your admob id here
 		Admob.Instance ().setTesting (true);
-		Admob.Instance ().loadInterstitial ();*/
+		Admob.Instance ().loadInterstitial ();
 	}
 	
 	// Update is called once per frame
@@ -40,7 +40,6 @@ public class SelectMenuScript : MonoBehaviour {
 		}
 	}
 	public void IndexUp(){
-		AudioButton ();
 		if (index < totalCharacters)
 			index++;
 		else
@@ -50,7 +49,6 @@ public class SelectMenuScript : MonoBehaviour {
 		CheckPlayable ();
 	}
 	public void IndexDown(){
-		AudioButton ();
 		if (index <= 0)
 			index = totalCharacters;
 		else
@@ -75,12 +73,10 @@ public class SelectMenuScript : MonoBehaviour {
 		}
 	}
 	public void ReturnMenu(){
-		AudioButton ();
 		GameObject.FindWithTag ("DataManager").GetComponent<DataTransfer> ().saveCharacters = true;
 		Application.LoadLevel (0);
 	}
 	public void SelectCharacter(){
-		AudioButton ();
 		selectedCharacter = characters [index];
 	}
 	public void InterstitialUnlock(){
@@ -89,16 +85,5 @@ public class SelectMenuScript : MonoBehaviour {
 		else
 			Admob.Instance ().loadInterstitial ();*/
 		characters [index].GetComponent<Player> ().playable = true;
-	}
-
-	public void AudioButton(){
-		//Debug.Log (GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ());
-		audioManager audioManager = GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ();
-		audioManager.PlaySound ("Boton");
-	}
-	public void UnlockButton(){
-		//Debug.Log (GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ());
-		audioManager audioManager = GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ();
-		audioManager.PlaySound ("Desbloqueo");
 	}
 }

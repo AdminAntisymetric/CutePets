@@ -70,9 +70,4 @@ public class ItemsUse : MonoBehaviour {
 		gm.GetComponent<GameMaster> ().slowCounter = timeEffect;
 		clockButton.interactable = false;
 	}
-	public void AudioButton(){
-		Debug.Log (GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ());
-		audioManager audioManager = GameObject.FindGameObjectWithTag ("DataManager").GetComponent<audioManager> ();
-		audioManager.PlaySound ("Boton");
-	}
 }

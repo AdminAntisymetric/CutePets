@@ -11,14 +11,12 @@ public class HealthScript : MonoBehaviour {
 	void Start () {
 		playerData = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
 		healthBar = GameObject.Find("HealthBar").GetComponent<SpriteRenderer>();
-		//Debug.Log (GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
-		//Debug.Log (healthBar);
 		healthScale = healthBar.transform.localScale;
 		curHealth = playerData.playerStats.Health;
 	}
 	
 	// Update is called once per frame
-	void LateUpdate () {
+	void Update () {
 		curHealth = playerData.playerStats.Health;
 		UpdateHealthBar();
 	}
